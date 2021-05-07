@@ -1,0 +1,28 @@
+.square {
+    -fx-border-style: solid;
+    -fx-background-color: white;
+}
+
+.denied{
+    -fx-background-color: black;
+}
+
+.selected {
+    -fx-background-color: lavender;
+}
+
+.selectable {
+    -fx-border-width: 5;
+    -fx-border-color: Maroon;
+    -fx-border-style: dashed;
+}
+
+.square:hover {
+    -fx-background-color: NavajoWhite ;
+}
+
+.grid{
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
