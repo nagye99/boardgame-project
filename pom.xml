@@ -26,11 +26,12 @@
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 
         <maven.compiler.release>16</maven.compiler.release>
-        <exec.mainClass>Main</exec.mainClass>
+        <exec.mainClass>boardgame.Main</exec.mainClass>
 
         <jackson-databind.version>2.12.1</jackson-databind.version>
         <jacoco.version>0.8.6</jacoco.version>
         <surefire.version>3.0.0-M5</surefire.version>
+        <javafx.version>16</javafx.version>
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
     </properties>
 
@@ -69,12 +70,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>16</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>16</version>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
 
