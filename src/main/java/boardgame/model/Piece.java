@@ -21,6 +21,15 @@ public class Piece {
         return position.get();
     }
 
+    public ObjectProperty<Position> positionProperty() {
+        return position;
+    }
+
+    public void moveTo(Direction direction) {
+        Position newPosition = position.get().moveTo(direction);
+        position.set(newPosition);
+    }
+
     public String toString() {
         return "\ncolor: " + type.toString() + " position: " + position.get().toString() ;
     }
