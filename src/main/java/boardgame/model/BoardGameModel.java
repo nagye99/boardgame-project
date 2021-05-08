@@ -239,7 +239,9 @@ public class BoardGameModel {
 
     public static void main(String[] args) {
         var model = new BoardGameModel();
+        //System.out.println(model.getPieceType(13));
         System.out.println(model);
+        //System.out.println(model.getBlockPosition(0));
         System.out.println(model.canBlueMove());
         System.out.println(model.canRedMove());
     }
