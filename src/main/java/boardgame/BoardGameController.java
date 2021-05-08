@@ -16,6 +16,8 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javafx.application.Platform.exit;
+
 public class BoardGameController {
 
     private enum SelectionPhase {
@@ -46,7 +48,9 @@ public class BoardGameController {
 
     private NextPlayer nextPlayer = NextPlayer.RED_PLAYER;
 
-    private List<Position> selectablePositions = new ArrayList<>();
+    private NextPlayer winner;
+
+    private  List<Position> selectablePositions = new ArrayList<>();
 
     private Position selected;
 
@@ -130,6 +134,11 @@ public class BoardGameController {
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
                             deselectSelectedPosition();
+                            if (!model.canBlueMove()){
+                                winner = nextPlayer;
+                                System.out.println("Nyertes: " + winner);
+                                exit();
+                            }
                             nextPlayer = nextPlayer.alter();
                             alterSelectionPhase();
                         }
@@ -151,6 +160,11 @@ public class BoardGameController {
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
                             deselectSelectedPosition();
+                            if (!model.canRedMove()){
+                                winner = nextPlayer;
+                                System.out.println("Nyertes: " + winner);
+                                exit();
+                            }
                             nextPlayer = nextPlayer.alter();
                             alterSelectionPhase();
                         }
@@ -204,7 +218,6 @@ public class BoardGameController {
                 switch (selectionPhase) {
                     case SELECT_FROM -> selectablePositions.addAll(model.getRedPositions());
                     case SELECT_TO -> {
-                        var pieceNumber = model.getPieceNumber(selected).getAsInt();
                         for (var direction : model.getValidRedMoves(selected)) {
                             selectablePositions.add(selected.moveTo(direction));
                         }
@@ -215,7 +228,6 @@ public class BoardGameController {
                 switch (selectionPhase) {
                     case SELECT_FROM -> selectablePositions.addAll(model.getBluePositions());
                     case SELECT_TO -> {
-                        var pieceNumber = model.getPieceNumber(selected).getAsInt();
                         for (var direction : model.getValidBlueMoves(selected)) {
                             selectablePositions.add(selected.moveTo(direction));
                         }

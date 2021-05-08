@@ -1,6 +1,7 @@
 package boardgame.model;
 
 import javafx.beans.property.ObjectProperty;
+import org.tinylog.Logger;
 
 import java.util.*;
 
@@ -183,14 +184,26 @@ public class BoardGameModel {
     }
 
     public void move(int pieceNumber, Direction direction) {
-        if (pieces.get(pieceNumber).getType() == PieceColor.RED){
-            redPiecesPosition.remove(pieces.get(pieceNumber).getPosition());
-            redPiecesPosition.add(pieces.get(pieceNumber).getPosition().moveTo(direction));
+        var newPosition = pieces.get(pieceNumber).getPosition().moveTo(direction);
+        var piece = pieces.get(pieceNumber);
+        if (piece.getType() == PieceColor.RED){
+            redPiecesPosition.remove(piece.getPosition());
+            redPiecesPosition.add(newPosition);
+            if(bluePiecesPosition.contains(newPosition)){
+                bluePiecesPosition.remove(newPosition);
+                var a = pieces.remove(new Piece(PieceColor.BLUE, newPosition));
+                Logger.debug(a+"\n"+pieces);
+            }
         }else{
-                bluePiecesPosition.remove(pieces.get(pieceNumber).getPosition());
-                bluePiecesPosition.add(pieces.get(pieceNumber).getPosition().moveTo(direction));
+                bluePiecesPosition.remove(piece.getPosition());
+                bluePiecesPosition.add(newPosition);
+            if(redPiecesPosition.contains(newPosition)){
+                redPiecesPosition.remove(newPosition);
+                var a =pieces.remove(new Piece(PieceColor.RED, newPosition));
+                Logger.debug(a+"\n"+pieces);
+            }
         }
-        pieces.get(pieceNumber).moveTo(direction);
+        piece.moveTo(direction);
     }
 
 
@@ -224,8 +237,8 @@ public class BoardGameModel {
     }
 
     public String toString() {
-        StringJoiner joiner = new StringJoiner(",", "[", "]");
-        for (var piece : pieces) {
+       StringJoiner joiner = new StringJoiner(",", "[", "]");
+       for (var piece : pieces) {
             joiner.add(piece.toString());
         }
         for (var pos:bluePiecesPosition){
@@ -240,9 +253,13 @@ public class BoardGameModel {
     public static void main(String[] args) {
         var model = new BoardGameModel();
         //System.out.println(model.getPieceType(13));
-        System.out.println(model);
+        //System.out.println(model);
         //System.out.println(model.getBlockPosition(0));
-        System.out.println(model.canBlueMove());
-        System.out.println(model.canRedMove());
+        //System.out.println(model.canBlueMove());
+        //System.out.println(model.canRedMove());
+/*        System.out.println(model.pieces);
+        System.out.println(piecesArray.remove(new Piece(PieceColor.RED, new Position(0,0))));
+        System.out.println(model.pieces);*/
+        System.out.println(model.bluePiecesPosition.contains(new Position(4,6)));
     }
 }
