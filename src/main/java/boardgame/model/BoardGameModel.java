@@ -10,14 +10,14 @@ public class BoardGameModel {
     public static int BOARD_WIDTH = 7;
     public static int BOARD_HEIGHT = 6;
 
-    private static final ArrayList<Piece> piecesArray = generatePieces();
+    //private static final ArrayList<Piece> piecesArray = generatePieces();
 
     private final ArrayList<Piece> pieces;
     private final ArrayList<Block> blocks;
     private final HashSet<Position> redPiecesPosition = new HashSet<>();
     private final HashSet<Position> bluePiecesPosition = new HashSet<>();
 
-    private static ArrayList<Piece> generatePieces(){
+    /*private static ArrayList<Piece> generatePieces(){
         ArrayList<Piece> tmpPieces = new ArrayList<>();
         for (int i = 0; i <= 6; i++) {
             tmpPieces.add(new Piece(PieceColor.RED, new Position(0, i)));
@@ -26,17 +26,21 @@ public class BoardGameModel {
             tmpPieces.add(new Piece(PieceColor.BLUE, new Position(5, i)));
         }
         return tmpPieces;
-    }
+    }*/
 
     public BoardGameModel() {
-        this(piecesArray, new Block(new Position(2, 4)), new Block(new Position(3,2)));
+        this(new ArrayList<Block>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
+                new Piece(PieceColor.RED, new Position(0,0)), new Piece(PieceColor.RED, new Position(0,1)), new Piece(PieceColor.RED, new Position(0,2)), new Piece(PieceColor.RED, new Position(0,3)), new Piece(PieceColor.RED, new Position(0,4)), new Piece(PieceColor.RED, new Position(0,5)), new Piece(PieceColor.RED, new Position(0,6)),
+                new Piece(PieceColor.BLUE, new Position(5,0)), new Piece(PieceColor.BLUE, new Position(5,1)), new Piece(PieceColor.BLUE, new Position(5,2)), new Piece(PieceColor.BLUE, new Position(5,3)), new Piece(PieceColor.BLUE, new Position(5,4)), new Piece(PieceColor.BLUE, new Position(5,5)), new Piece(PieceColor.BLUE, new Position(5,6)));
     }
 
-    public BoardGameModel(ArrayList<Piece> piecesList, Block...blocks ) {
-        checkPieces(piecesList);
-        this.pieces = piecesList;
-        this.blocks = new ArrayList<>(Arrays.asList(blocks));
-        for(var piece : piecesList){
+    public BoardGameModel(ArrayList<Block> blocks, Piece...pieces) {
+        checkPieces(pieces);
+        Logger.error("Elötte: ",pieces.toString());
+        this.pieces = new ArrayList<Piece>(Arrays.asList(pieces));
+        Logger.error("Utána: "+pieces);
+        this.blocks = blocks;
+        for(var piece : pieces){
             if(piece.getType() == PieceColor.RED){
                 redPiecesPosition.add(piece.getPosition());
             }else{
@@ -45,7 +49,7 @@ public class BoardGameModel {
         }
     }
 
-    private void checkPieces(ArrayList<Piece> pieces) {
+    private void checkPieces(Piece[] pieces) {
         var seen = new HashSet<Position>();
         for (var piece : pieces) {
             if (! isOnBoard(piece.getPosition()) || seen.contains(piece.getPosition())) {
@@ -187,23 +191,31 @@ public class BoardGameModel {
         var newPosition = pieces.get(pieceNumber).getPosition().moveTo(direction);
         var piece = pieces.get(pieceNumber);
         if (piece.getType() == PieceColor.RED){
-            redPiecesPosition.remove(piece.getPosition());
-            redPiecesPosition.add(newPosition);
-            if(bluePiecesPosition.contains(newPosition)){
-                bluePiecesPosition.remove(newPosition);
-                var a = pieces.remove(new Piece(PieceColor.BLUE, newPosition));
-                Logger.debug(a+"\n"+pieces);
-            }
+            moveRedPiece(piece, newPosition);
         }else{
-                bluePiecesPosition.remove(piece.getPosition());
-                bluePiecesPosition.add(newPosition);
-            if(redPiecesPosition.contains(newPosition)){
-                redPiecesPosition.remove(newPosition);
-                var a =pieces.remove(new Piece(PieceColor.RED, newPosition));
-                Logger.debug(a+"\n"+pieces);
-            }
+              moveBluePiece(piece, newPosition);
         }
         piece.moveTo(direction);
+    }
+
+    private void moveRedPiece(Piece piece, Position newPosition){
+        redPiecesPosition.remove(piece.getPosition());
+        redPiecesPosition.add(newPosition);
+        if(bluePiecesPosition.contains(newPosition)){
+            bluePiecesPosition.remove(newPosition);
+            var a = pieces.remove(new Piece(PieceColor.BLUE, newPosition));
+            Logger.debug(a+"\n"+pieces);
+        }
+    }
+
+    private void moveBluePiece(Piece piece, Position newPosition){
+        bluePiecesPosition.remove(piece.getPosition());
+        bluePiecesPosition.add(newPosition);
+        if(redPiecesPosition.contains(newPosition)){
+            redPiecesPosition.remove(newPosition);
+            var a =pieces.remove(new Piece(PieceColor.RED, newPosition));
+            Logger.debug(a+"\n"+pieces);
+        }
     }
 
 

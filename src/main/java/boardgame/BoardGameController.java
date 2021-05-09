@@ -1,24 +1,35 @@
 package boardgame;
 
+import boardgame.controller.OpenPageController;
+import boardgame.controller.WinnerController;
 import boardgame.model.BlueDirection;
 import boardgame.model.BoardGameModel;
 import boardgame.model.Position;
 import boardgame.model.RedDirection;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import org.tinylog.Logger;
+import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javafx.application.Platform.exit;
-
 public class BoardGameController {
+
 
     private enum SelectionPhase {
         SELECT_FROM,
@@ -48,24 +59,35 @@ public class BoardGameController {
 
     private NextPlayer nextPlayer = NextPlayer.RED_PLAYER;
 
-    private NextPlayer winner;
-
     private  List<Position> selectablePositions = new ArrayList<>();
 
     private Position selected;
 
-    private BoardGameModel model = new BoardGameModel();
+    private BoardGameModel model;
+
+    private StringProperty redName = new SimpleStringProperty();
+    private StringProperty blueName = new SimpleStringProperty();
+
 
     @FXML
     private GridPane board;
 
     @FXML
+    private Label redPlayerLabel;
+    @FXML
+    private Label bluePlayerLabel;
+
+    @FXML
     private void initialize() {
+        model = new BoardGameModel();
+        Logger.error(model.getPieceCount());
         createBoard();
         createPieces();
         createBlocks();
         setSelectablePositions();
         showSelectablePositions();
+        writeOutName();
+        Logger.error("Init");
     }
 
     private void createBoard() {
@@ -106,6 +128,16 @@ public class BoardGameController {
         }
     }
 
+    public void setName(String player1, String player2) {
+        this.redName.set(player1);
+        this.blueName.set(player2);
+    }
+
+    private void writeOutName(){
+        redPlayerLabel.textProperty().bind(Bindings.concat(redName));
+        bluePlayerLabel.textProperty().bind(Bindings.concat(blueName));
+    }
+
     @FXML
     private void handleMouseClick(MouseEvent event) {
         var square = (StackPane) event.getSource();
@@ -116,7 +148,7 @@ public class BoardGameController {
         handleClickOnSquare(position);
     }
 
-    private void handleClickOnSquare(Position position) {
+    private void handleClickOnSquare(Position position){
         Logger.debug("ClickSquare "+ nextPlayer + selectionPhase);
         switch (nextPlayer){
             case RED_PLAYER -> {
@@ -135,9 +167,7 @@ public class BoardGameController {
                             model.move(pieceNumber, direction);
                             deselectSelectedPosition();
                             if (!model.canBlueMove()){
-                                winner = nextPlayer;
-                                System.out.println("Nyertes: " + winner);
-                                exit();
+                                changeScene("piros", redName.get(), blueName.get());
                             }
                             nextPlayer = nextPlayer.alter();
                             alterSelectionPhase();
@@ -161,9 +191,7 @@ public class BoardGameController {
                             model.move(pieceNumber, direction);
                             deselectSelectedPosition();
                             if (!model.canRedMove()){
-                                winner = nextPlayer;
-                                System.out.println("Nyertes: " + winner);
-                                exit();
+                                changeScene("kék", blueName.get(), redName.get());
                             }
                             nextPlayer = nextPlayer.alter();
                             alterSelectionPhase();
@@ -258,5 +286,25 @@ public class BoardGameController {
         StackPane newSquare = getSquare(newPosition);
         newSquare.getChildren().addAll(oldSquare.getChildren());
         oldSquare.getChildren().clear();
+    }
+
+    @FXML
+    private void changeScene(String color, String winnerName, String loserName){
+        try {
+        FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/winner.fxml"));
+        Logger.warn(BoardGameController.class);
+        Logger.error(BoardGameController.class.getResource("/winner.fxml"));
+        Parent root = fxmlLoader.load();
+        WinnerController controller = fxmlLoader.<WinnerController>getController();
+        controller.setWinner(color, winnerName, loserName);
+        Stage stage = (Stage) ((Node) bluePlayerLabel).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();}
+        catch (IOException e) {
+            System.out.println(e);
+            e.getCause();
+            e.getMessage();
+            Logger.error("Nem található az fxml.");
+        }
     }
 }

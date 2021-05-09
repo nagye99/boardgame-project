@@ -21,6 +21,7 @@ public record Position(int row, int col) {
         return Objects.hash(row, col);
     }
 
+    @Override
     public String toString() {
         return String.format("(%d,%d)", row, col);
     }
