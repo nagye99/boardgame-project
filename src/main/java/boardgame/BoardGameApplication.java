@@ -12,7 +12,7 @@ public class BoardGameApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/openPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/openPage.fxml"));
         stage.setTitle("Board Game Project with JavaFX");
         Scene scene = new Scene(root);
         stage.setScene(scene);

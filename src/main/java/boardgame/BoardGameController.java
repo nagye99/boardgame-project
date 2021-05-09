@@ -6,9 +6,11 @@ import boardgame.model.BlueDirection;
 import boardgame.model.BoardGameModel;
 import boardgame.model.Position;
 import boardgame.model.RedDirection;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +25,11 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
 import javafx.scene.control.Label;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,17 +52,17 @@ public class BoardGameController {
         RED_PLAYER,
         BLUE_PLAYER;
 
-        public NextPlayer alter() {
+        /*public NextPlayer alter() {
             return switch (this) {
                 case RED_PLAYER -> BLUE_PLAYER;
                 case BLUE_PLAYER -> RED_PLAYER;
             };
-        }
+        }*/
     }
 
     private SelectionPhase selectionPhase = SelectionPhase.SELECT_FROM;
 
-    private NextPlayer nextPlayer = NextPlayer.RED_PLAYER;
+    private final ObjectProperty<NextPlayer> nextPlayer = new SimpleObjectProperty<>(NextPlayer.RED_PLAYER);
 
     private  List<Position> selectablePositions = new ArrayList<>();
 
@@ -65,8 +70,14 @@ public class BoardGameController {
 
     private BoardGameModel model;
 
+    private Timeline stopWatchTimeline;
+    private Instant startTime;
+
+    private IntegerProperty steps = new SimpleIntegerProperty(0);
+
     private StringProperty redName = new SimpleStringProperty();
     private StringProperty blueName = new SimpleStringProperty();
+
 
 
     @FXML
@@ -76,6 +87,14 @@ public class BoardGameController {
     private Label redPlayerLabel;
     @FXML
     private Label bluePlayerLabel;
+    @FXML
+    public Label nextPlayerLabel;
+
+    @FXML
+    public Label stopWatchLabel;
+
+    @FXML
+    public Label stepsLabel;
 
     @FXML
     private void initialize() {
@@ -87,6 +106,11 @@ public class BoardGameController {
         setSelectablePositions();
         showSelectablePositions();
         writeOutName();
+        observeNexPlayerChange();
+        createStopWatch();
+        Logger.error(steps);
+        stepsLabel.textProperty().bind(steps.asString());
+        Logger.error(steps);
         Logger.error("Init");
     }
 
@@ -150,7 +174,7 @@ public class BoardGameController {
 
     private void handleClickOnSquare(Position position){
         Logger.debug("ClickSquare "+ nextPlayer + selectionPhase);
-        switch (nextPlayer){
+        switch (nextPlayer.get()){
             case RED_PLAYER -> {
                 switch (selectionPhase) {
                     case SELECT_FROM -> {
@@ -165,11 +189,14 @@ public class BoardGameController {
                             var direction = RedDirection.of(position.row() - selected.row(), position.col() - selected.col());
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
+                            steps.set(steps.get() + 1);
+                            Logger.error(steps);
                             deselectSelectedPosition();
                             if (!model.canBlueMove()){
+                                stopWatchTimeline.stop();
                                 changeScene("piros", redName.get(), blueName.get());
                             }
-                            nextPlayer = nextPlayer.alter();
+                            nextPlayer.set(NextPlayer.BLUE_PLAYER);
                             alterSelectionPhase();
                         }
                     }
@@ -189,11 +216,13 @@ public class BoardGameController {
                             var direction = BlueDirection.of(position.row() - selected.row(), position.col() - selected.col());
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
+                            steps.set(steps.get() + 1);
                             deselectSelectedPosition();
                             if (!model.canRedMove()){
+                                stopWatchTimeline.stop();
                                 changeScene("kék", blueName.get(), redName.get());
                             }
-                            nextPlayer = nextPlayer.alter();
+                            nextPlayer.set(NextPlayer.RED_PLAYER);
                             alterSelectionPhase();
                         }
                     }
@@ -241,7 +270,7 @@ public class BoardGameController {
     private void setSelectablePositions() {
         selectablePositions.clear();
         Logger.debug("selectablePosition" + nextPlayer);
-        switch (nextPlayer){
+        switch (nextPlayer.get()){
             case RED_PLAYER ->{
                 switch (selectionPhase) {
                     case SELECT_FROM -> selectablePositions.addAll(model.getRedPositions());
@@ -291,13 +320,13 @@ public class BoardGameController {
     @FXML
     private void changeScene(String color, String winnerName, String loserName){
         try {
-        FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/winner.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/winner.fxml"));
         Logger.warn(BoardGameController.class);
-        Logger.error(BoardGameController.class.getResource("/winner.fxml"));
+        Logger.error(BoardGameController.class.getResource("/fxml/winner.fxml"));
         Parent root = fxmlLoader.load();
         WinnerController controller = fxmlLoader.<WinnerController>getController();
         controller.setWinner(color, winnerName, loserName);
-        Stage stage = (Stage) ((Node) bluePlayerLabel).getScene().getWindow();
+        Stage stage = (Stage) ((Node) board).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();}
         catch (IOException e) {
@@ -306,5 +335,28 @@ public class BoardGameController {
             e.getMessage();
             Logger.error("Nem található az fxml.");
         }
+    }
+
+    private void observeNexPlayerChange(){
+        nextPlayer.addListener((ObservableValue<? extends NextPlayer> observable, NextPlayer oldPlayer, NextPlayer newPlayer)->{
+            if(newPlayer == NextPlayer.RED_PLAYER){
+                nextPlayerLabel.setText("A piros játékos következik");
+                nextPlayerLabel.setTextFill(Color.RED);
+            }
+            else if (newPlayer == NextPlayer.BLUE_PLAYER){
+                nextPlayerLabel.setText("A kék játékos következik");
+                nextPlayerLabel.setTextFill(Color.BLUE);
+            }
+        });
+    }
+
+    private void createStopWatch() {
+        startTime = Instant.now();
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
     }
 }
