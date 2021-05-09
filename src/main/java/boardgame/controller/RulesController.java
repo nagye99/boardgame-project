@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class RulesController {
     public void handleBackButton(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(RulesController.class.getResource("/openPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(RulesController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

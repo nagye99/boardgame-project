@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class ResultController {
     public void handleRestartButton(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/openPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

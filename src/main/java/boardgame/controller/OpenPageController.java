@@ -27,8 +27,8 @@ public class OpenPageController {
             errorLabel.setText("Kötelező kitölteni a két játékos nevének a mezőjét!");
         }
         else{
-            FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/boardGame.fxml"));
-            Logger.warn(OpenPageController.class.getResource("/boardGame.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
+            Logger.warn(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
             Parent root = fxmlLoader.load();
             BoardGameController controller = fxmlLoader.<BoardGameController>getController();
             controller.setName(player1TextField.getText(), player2TextField.getText());
@@ -39,8 +39,8 @@ public class OpenPageController {
     }
 
     public void handleRuleButton(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/rules.fxml"));
-        Logger.error(OpenPageController.class.getResource("/rules.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/rules.fxml"));
+        Logger.error(OpenPageController.class.getResource("/fxml/rules.fxml"));
         Parent root = fxmlLoader.load();
         RulesController controller = fxmlLoader.<RulesController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
