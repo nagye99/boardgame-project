@@ -1,6 +1,5 @@
 package boardgame.controller;
 
-import boardgame.BoardGameController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,9 +39,18 @@ public class OpenPageController {
 
     public void handleRuleButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/rules.fxml"));
-        Logger.error(OpenPageController.class.getResource("/fxml/rules.fxml"));
+       // Logger.error(OpenPageController.class.getResource("/fxml/rules.fxml"));
         Parent root = fxmlLoader.load();
         RulesController controller = fxmlLoader.<RulesController>getController();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    public void handleResultButton(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
+        Parent root = fxmlLoader.load();
+        ResultController controller = fxmlLoader.<ResultController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
