@@ -10,23 +10,10 @@ public class BoardGameModel {
     public static int BOARD_WIDTH = 7;
     public static int BOARD_HEIGHT = 6;
 
-    //private static final ArrayList<Piece> piecesArray = generatePieces();
-
     private final ArrayList<Piece> pieces;
     private final ArrayList<Block> blocks;
     private final HashSet<Position> redPiecesPosition = new HashSet<>();
     private final HashSet<Position> bluePiecesPosition = new HashSet<>();
-
-    /*private static ArrayList<Piece> generatePieces(){
-        ArrayList<Piece> tmpPieces = new ArrayList<>();
-        for (int i = 0; i <= 6; i++) {
-            tmpPieces.add(new Piece(PieceColor.RED, new Position(0, i)));
-        }
-        for (int i = 0; i <= 6; i++) {
-            tmpPieces.add(new Piece(PieceColor.BLUE, new Position(5, i)));
-        }
-        return tmpPieces;
-    }*/
 
     public BoardGameModel() {
         this(new ArrayList<Block>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
