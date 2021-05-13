@@ -56,7 +56,7 @@
    <bottom>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleGameButton" prefHeight="40.0" prefWidth="100.0" text="Mehet!">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleGameButton" prefHeight="40.0" prefWidth="150.0" text="Mehet!">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,14 +64,23 @@
                   <Insets bottom="50.0" top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="ruleButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleRuleButton" prefHeight="40.0" prefWidth="200.0" text="Játékszabály">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="ruleButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleRuleButton" prefHeight="40.0" prefWidth="200.0" text="Játékszabály">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="75.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="resultButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleResultButton" prefHeight="40.0" prefWidth="200.0" text="Eredmények">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </bottom>

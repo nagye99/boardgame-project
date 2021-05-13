@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" styleClass="border" stylesheets="@../css/boardGame.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boardgame.BoardGameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" styleClass="border" stylesheets="@../css/boardGame.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boardgame.controller.BoardGameController">
    <center>
        <GridPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" styleClass="grid" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
            <columnConstraints>
@@ -81,13 +81,22 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <bottom>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="980.0" BorderPane.alignment="CENTER">
          <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="140.0">
+               <children>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#handleRestartButton" prefHeight="50.0" prefWidth="110.0" text="Vissza a kezdőoldalra" textAlignment="CENTER" wrapText="true">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0">
                <children>
                   <Label fx:id="nextPlayerLabel" text="A piros játékos következik" textFill="RED">
                      <font>
-                        <Font size="22.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                </children>
@@ -129,6 +138,11 @@
                   </Label>
                </children>
             </VBox>
+            <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="140.0">
+               <children>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleResultButton" prefHeight="50.0" prefWidth="110.0" text="Feladás! Eredmények" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </HBox>
          </children>
       </HBox>
    </bottom>

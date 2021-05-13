@@ -5,18 +5,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boardgame.controller.ResultController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boardgame.controller.ResultPlayerController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <center>
-      <TableView fx:id="ResultTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="ResultPlayerTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="red_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Piros játékos" />
-          <TableColumn fx:id="blue_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Kék játékos" />
-            <TableColumn fx:id="winner" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Győztes" />
-            <TableColumn fx:id="steps" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Lépések" />
-            <TableColumn fx:id="duration" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Játékidő" />
+          <TableColumn fx:id="name" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Játékos neve" />
+            <TableColumn fx:id="plays" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Játékok" />
+            <TableColumn fx:id="wins" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Győzelmek" />
         </columns>
       </TableView>
    </center>
@@ -47,7 +45,7 @@
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="900.0">
                <children>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleResultPlayerButton" prefHeight="40.0" prefWidth="250.0" text="Egyéni eredmények">
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleResultButton" prefHeight="40.0" prefWidth="250.0" text="Játék eredmények">
                      <font>
                         <Font size="18.0" />
                      </font>
