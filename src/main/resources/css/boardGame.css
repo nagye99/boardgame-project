@@ -29,3 +29,7 @@
 .border{
     -fx-background-color: lightgray;
 }
+
+.splitpane{
+    -fx-background-color: lightgray;
+}
