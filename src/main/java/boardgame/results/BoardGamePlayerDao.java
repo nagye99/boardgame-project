@@ -43,7 +43,7 @@ public interface BoardGamePlayerDao {
     @SqlQuery("SELECT name FROM BoardGamePlayerResults")
     List<String> listPlayersNames();
 
-    @SqlQuery("SELECT * FROM BoardGamePlayerResults")
+    @SqlQuery("SELECT * FROM BoardGamePlayerResults ORDER BY wins DESC")
     List<Player> listPlayers();
 
 }
