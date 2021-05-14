@@ -1,6 +1,7 @@
 package boardgame.model;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import org.tinylog.Logger;
 
 import java.util.*;
@@ -14,14 +15,15 @@ public class BoardGameModel {
     private final ArrayList<Block> blocks;
     private final HashSet<Position> redPiecesPosition = new HashSet<>();
     private final HashSet<Position> bluePiecesPosition = new HashSet<>();
+    public static ObjectProperty<NextPlayer> nextPlayer;
 
     public BoardGameModel() {
-        this(new ArrayList<Block>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
+        this(NextPlayer.RED_PLAYER, new ArrayList<Block>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
                 new Piece(PieceColor.RED, new Position(0,0)), new Piece(PieceColor.RED, new Position(0,1)), new Piece(PieceColor.RED, new Position(0,2)), new Piece(PieceColor.RED, new Position(0,3)), new Piece(PieceColor.RED, new Position(0,4)), new Piece(PieceColor.RED, new Position(0,5)), new Piece(PieceColor.RED, new Position(0,6)),
                 new Piece(PieceColor.BLUE, new Position(5,0)), new Piece(PieceColor.BLUE, new Position(5,1)), new Piece(PieceColor.BLUE, new Position(5,2)), new Piece(PieceColor.BLUE, new Position(5,3)), new Piece(PieceColor.BLUE, new Position(5,4)), new Piece(PieceColor.BLUE, new Position(5,5)), new Piece(PieceColor.BLUE, new Position(5,6)));
     }
 
-    public BoardGameModel(ArrayList<Block> blocks, Piece...pieces) {
+    public BoardGameModel(NextPlayer startPlayer, ArrayList<Block> blocks, Piece...pieces) {
         checkPieces(pieces);
         Logger.error("Elötte: ",pieces.toString());
         this.pieces = new ArrayList<Piece>(Arrays.asList(pieces));
@@ -34,6 +36,7 @@ public class BoardGameModel {
                 bluePiecesPosition.add(piece.getPosition());
             }
         }
+        this.nextPlayer = new ReadOnlyObjectWrapper<>(startPlayer);
     }
 
     private void checkPieces(Piece[] pieces) {
@@ -73,6 +76,10 @@ public class BoardGameModel {
 
     public ObjectProperty<Position> positionProperty(int pieceNumber) {
         return pieces.get(pieceNumber).positionProperty();
+    }
+
+    public ObjectProperty<NextPlayer> nextPlayerProperty(){
+        return nextPlayer;
     }
 
     public boolean isValidMove(Position newPosition){
@@ -182,6 +189,7 @@ public class BoardGameModel {
         }else{
               moveBluePiece(piece, newPosition);
         }
+        nextPlayer.set(nextPlayer.get().alter());
         piece.moveTo(direction);
     }
 
@@ -224,6 +232,17 @@ public class BoardGameModel {
             }
         }
         return bluePositions;
+    }
+
+    public static Direction getDirection(Position selected, Position position){
+        Direction direction;
+        switch(nextPlayer.get()){
+            case RED_PLAYER->{
+                direction = RedDirection.of(position.row() - selected.row(), position.col() - selected.col());}
+            case BLUE_PLAYER ->{direction = BlueDirection.of(position.row() - selected.row(), position.col() - selected.col());}
+            default -> throw new IllegalStateException("Unexpected value: " + nextPlayer.get());
+        }
+        return direction;
     }
 
     public OptionalInt getPieceNumber(Position position) {

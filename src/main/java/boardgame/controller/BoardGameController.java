@@ -1,11 +1,7 @@
 package boardgame.controller;
 
-import boardgame.model.BlueDirection;
-import boardgame.model.BoardGameModel;
-import boardgame.model.Position;
-import boardgame.model.RedDirection;
+import boardgame.model.*;
 import boardgame.results.BoardGameHandleResults;
-import boardgame.results.Player;
 import boardgame.results.Results;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -31,11 +28,12 @@ import javafx.scene.control.Label;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+
+import static boardgame.model.BoardGameModel.getDirection;
 
 public class BoardGameController {
 
@@ -52,21 +50,9 @@ public class BoardGameController {
         }
     }
 
-    private enum NextPlayer {
-        RED_PLAYER,
-        BLUE_PLAYER;
-
-        /*public NextPlayer alter() {
-            return switch (this) {
-                case RED_PLAYER -> BLUE_PLAYER;
-                case BLUE_PLAYER -> RED_PLAYER;
-            };
-        }*/
-    }
-
     private SelectionPhase selectionPhase = SelectionPhase.SELECT_FROM;
 
-    private final ObjectProperty<NextPlayer> nextPlayer = new SimpleObjectProperty<>(NextPlayer.RED_PLAYER);
+    private ObjectProperty<NextPlayer> nextPlayer = new SimpleObjectProperty<>();
 
     private  List<Position> selectablePositions = new ArrayList<>();
 
@@ -103,14 +89,15 @@ public class BoardGameController {
     @FXML
     private void initialize() {
         model = new BoardGameModel();
-        //Logger.error(model.getPieceCount());
+        Bindings.bindBidirectional(nextPlayer, BoardGameModel.nextPlayer);
+        model.nextPlayerProperty().addListener(this::nextPlayerChange);
         createBoard();
         createPieces();
         createBlocks();
         setSelectablePositions();
         showSelectablePositions();
         writeOutName();
-        observeNexPlayerChange();
+        //observeNexPlayerChange();
         createStopWatch();
         //Logger.error(steps);
         stepsLabel.textProperty().bind(steps.asString());
@@ -162,8 +149,8 @@ public class BoardGameController {
     }
 
     private void writeOutName(){
-        redPlayerLabel.textProperty().bind(Bindings.concat(redName));
-        bluePlayerLabel.textProperty().bind(Bindings.concat(blueName));
+        redPlayerLabel.textProperty().bind(redName);
+        bluePlayerLabel.textProperty().bind(blueName);
     }
 
     @FXML
@@ -176,10 +163,21 @@ public class BoardGameController {
         handleClickOnSquare(position);
     }
 
+    private void nextPlayerChange(ObservableValue<? extends NextPlayer> observable, NextPlayer oldPlayer, NextPlayer newPlayer ) {
+        if(newPlayer == NextPlayer.RED_PLAYER){
+            nextPlayerLabel.setText("A piros játékos következik");
+            nextPlayerLabel.setTextFill(Color.RED);
+        }
+        else if (newPlayer == NextPlayer.BLUE_PLAYER){
+            nextPlayerLabel.setText("A kék játékos következik");
+            nextPlayerLabel.setTextFill(Color.BLUE);
+        }
+    }
+
     private void handleClickOnSquare(Position position){
         Logger.debug("ClickSquare "+ nextPlayer + selectionPhase);
-        switch (nextPlayer.get()){
-            case RED_PLAYER -> {
+        /*switch (nextPlayer.get()){
+            case RED_PLAYER -> {*/
                 switch (selectionPhase) {
                     case SELECT_FROM -> {
                         if (selectablePositions.contains(position)) {
@@ -194,20 +192,19 @@ public class BoardGameController {
                         }
                         else if (selectablePositions.contains(position)) {
                             var pieceNumber = model.getPieceNumber(selected).getAsInt();
-                            var direction = RedDirection.of(position.row() - selected.row(), position.col() - selected.col());
+                            var direction = getDirection(selected,position);
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
                             steps.set(steps.get() + 1);
                             deselectSelectedPosition();
                             if (!model.canBlueMove()){
-                                endGame("piros", redName.get(), blueName.get());
+                                //endGame("piros", redName.get(), blueName.get());
                             }
-                            nextPlayer.set(NextPlayer.BLUE_PLAYER);
                             alterSelectionPhase();
                         }
                     }
                 }
-            }
+           /* }
             case BLUE_PLAYER -> {
                 switch (selectionPhase) {
                     case SELECT_FROM -> {
@@ -222,7 +219,7 @@ public class BoardGameController {
                             alterSelectionPhase();
                         }else if (selectablePositions.contains(position)) {
                             var pieceNumber = model.getPieceNumber(selected).getAsInt();
-                            var direction = BlueDirection.of(position.row() - selected.row(), position.col() - selected.col());
+                            var direction = getDirection(selected,position);
                             Logger.debug("Moving piece {} {}", pieceNumber, direction);
                             model.move(pieceNumber, direction);
                             steps.set(steps.get() + 1);
@@ -230,13 +227,12 @@ public class BoardGameController {
                             if (!model.canRedMove()){
                                 endGame("piros", blueName.get(), redName.get());
                             }
-                            nextPlayer.set(NextPlayer.RED_PLAYER);
                             alterSelectionPhase();
                         }
                     }
                 }
             }
-        }
+        }*/
     }
 
     private void alterSelectionPhase() {
@@ -300,7 +296,6 @@ public class BoardGameController {
                 }
             }
         }
-
     }
 
     private void showSelectablePositions() {
@@ -343,19 +338,6 @@ public class BoardGameController {
             e.getMessage();
             //Logger.error("Nem található az fxml.");
         }
-    }
-
-    private void observeNexPlayerChange(){
-        nextPlayer.addListener((ObservableValue<? extends NextPlayer> observable, NextPlayer oldPlayer, NextPlayer newPlayer)->{
-            if(newPlayer == NextPlayer.RED_PLAYER){
-                nextPlayerLabel.setText("A piros játékos következik");
-                nextPlayerLabel.setTextFill(Color.RED);
-            }
-            else if (newPlayer == NextPlayer.BLUE_PLAYER){
-                nextPlayerLabel.setText("A kék játékos következik");
-                nextPlayerLabel.setTextFill(Color.BLUE);
-            }
-        });
     }
 
     private void createStopWatch() {
