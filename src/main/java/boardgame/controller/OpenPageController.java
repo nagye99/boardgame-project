@@ -25,6 +25,9 @@ public class OpenPageController {
         if(player1TextField.getText().isEmpty() || player2TextField.getText().isEmpty()){
             errorLabel.setText("Kötelező kitölteni a két játékos nevének a mezőjét!");
         }
+        else if(player1TextField.getText().equals(player2TextField.getText())){
+            errorLabel.setText("Adjatok meg különböző játékosneveket!");
+        }
         else{
             FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
             Logger.warn(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
