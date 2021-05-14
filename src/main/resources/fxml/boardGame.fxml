@@ -94,7 +94,7 @@
             </HBox>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0">
                <children>
-                  <Label fx:id="nextPlayerLabel" text="A piros játékos következik" textFill="RED">
+                  <Label fx:id="nextPlayerLabel" text="A piros játékos következik" textFill="RED" wrapText="true">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
