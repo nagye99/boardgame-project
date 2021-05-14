@@ -74,7 +74,7 @@ public class BoardGameHandleResults {
     }
 
 
-         public static void SaveWinnerPlayer(String name){
+       public static void SaveWinnerPlayer(String name){
         Jdbi jdbi = CreateConnection();
         try(Handle handle = jdbi.open()) {
             BoardGamePlayerDao dao = handle.attach(BoardGamePlayerDao.class);
@@ -88,7 +88,7 @@ public class BoardGameHandleResults {
         }
     }
 
-    public static void SaveLoserPlayer(String name){
+   public static void SaveLoserPlayer(String name){
         Jdbi jdbi = CreateConnection();
         try(Handle handle = jdbi.open()) {
             BoardGamePlayerDao dao = handle.attach(BoardGamePlayerDao.class);
