@@ -2,6 +2,7 @@ package boardgame.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import org.tinylog.Logger;
 
 import java.util.*;
@@ -15,19 +16,17 @@ public class BoardGameModel {
     private final ArrayList<Block> blocks;
     private final HashSet<Position> redPiecesPosition = new HashSet<>();
     private final HashSet<Position> bluePiecesPosition = new HashSet<>();
-    public static ObjectProperty<NextPlayer> nextPlayer;
+    public ObjectProperty<NextPlayer> nextPlayer;
 
     public BoardGameModel() {
-        this(NextPlayer.RED_PLAYER, new ArrayList<Block>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
+        this(NextPlayer.RED_PLAYER, new ArrayList<>(Arrays.asList(new Block(new Position(2,4)), new Block(new Position(3,2)))),
                 new Piece(PieceColor.RED, new Position(0,0)), new Piece(PieceColor.RED, new Position(0,1)), new Piece(PieceColor.RED, new Position(0,2)), new Piece(PieceColor.RED, new Position(0,3)), new Piece(PieceColor.RED, new Position(0,4)), new Piece(PieceColor.RED, new Position(0,5)), new Piece(PieceColor.RED, new Position(0,6)),
                 new Piece(PieceColor.BLUE, new Position(5,0)), new Piece(PieceColor.BLUE, new Position(5,1)), new Piece(PieceColor.BLUE, new Position(5,2)), new Piece(PieceColor.BLUE, new Position(5,3)), new Piece(PieceColor.BLUE, new Position(5,4)), new Piece(PieceColor.BLUE, new Position(5,5)), new Piece(PieceColor.BLUE, new Position(5,6)));
     }
 
     public BoardGameModel(NextPlayer startPlayer, ArrayList<Block> blocks, Piece...pieces) {
         checkPieces(pieces);
-        Logger.error("Elötte: ",pieces.toString());
         this.pieces = new ArrayList<Piece>(Arrays.asList(pieces));
-        Logger.error("Utána: "+pieces);
         this.blocks = blocks;
         for(var piece : pieces){
             if(piece.getType() == PieceColor.RED){
@@ -36,7 +35,7 @@ public class BoardGameModel {
                 bluePiecesPosition.add(piece.getPosition());
             }
         }
-        this.nextPlayer = new ReadOnlyObjectWrapper<>(startPlayer);
+        this.nextPlayer = new SimpleObjectProperty<>(startPlayer);
     }
 
     private void checkPieces(Piece[] pieces) {
@@ -234,9 +233,9 @@ public class BoardGameModel {
         return bluePositions;
     }
 
-    public static Direction getDirection(Position selected, Position position){
+    public Direction getDirection(Position selected, Position position){
         Direction direction;
-        switch(nextPlayer.get()){
+        switch(this.nextPlayer.get()){
             case RED_PLAYER->{
                 direction = RedDirection.of(position.row() - selected.row(), position.col() - selected.col());}
             case BLUE_PLAYER ->{direction = BlueDirection.of(position.row() - selected.row(), position.col() - selected.col());}
@@ -270,14 +269,13 @@ public class BoardGameModel {
 
     public static void main(String[] args) {
         var model = new BoardGameModel();
-        //System.out.println(model.getPieceType(13));
-        //System.out.println(model);
-        //System.out.println(model.getBlockPosition(0));
-        //System.out.println(model.canBlueMove());
-        //System.out.println(model.canRedMove());
-/*        System.out.println(model.pieces);
-        System.out.println(piecesArray.remove(new Piece(PieceColor.RED, new Position(0,0))));
-        System.out.println(model.pieces);*/
+        System.out.println(model.getPieceType(13));
+        System.out.println(model);
+        System.out.println(model.getBlockPosition(0));
+        System.out.println(model.canBlueMove());
+        System.out.println(model.canRedMove());
+        System.out.println(model.pieces);
+        System.out.println(model.pieces);
         System.out.println(model.bluePiecesPosition.contains(new Position(4,6)));
     }
 }
