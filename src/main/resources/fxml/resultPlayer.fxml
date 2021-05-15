@@ -14,7 +14,7 @@
         <columns>
           <TableColumn fx:id="name" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Játékos neve" />
             <TableColumn fx:id="plays" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Játékok" />
-            <TableColumn fx:id="wins" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Győzelmek" />
+            <TableColumn fx:id="wins" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="150.0" text="Győzelmek" />
         </columns>
       </TableView>
    </center>

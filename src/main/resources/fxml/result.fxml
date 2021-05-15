@@ -12,11 +12,12 @@
    <center>
       <TableView fx:id="ResultTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="red_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Piros játékos" />
-          <TableColumn fx:id="blue_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Kék játékos" />
-            <TableColumn fx:id="winner" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Győztes" />
-            <TableColumn fx:id="steps" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Lépések" />
-            <TableColumn fx:id="duration" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Játékidő" />
+          <TableColumn fx:id="red_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" text="Piros játékos" />
+          <TableColumn fx:id="blue_player" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" text="Kék játékos" />
+            <TableColumn fx:id="winner" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" text="Győztes" />
+            <TableColumn fx:id="steps" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="100.0" text="Lépések" />
+            <TableColumn fx:id="duration" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="110.0" text="Játékidő" />
+            <TableColumn fx:id="gameTime" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Idő" />
         </columns>
       </TableView>
    </center>
