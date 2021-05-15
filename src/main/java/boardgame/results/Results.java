@@ -1,13 +1,10 @@
 package boardgame.results;
 
-import javafx.beans.property.StringProperty;
-import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +15,7 @@ public class Results {
     private String winner;
     private Integer steps;
     private String duration;
+    private LocalDateTime gameTime;
 
     public static void main(String[] args) {
 
