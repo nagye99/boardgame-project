@@ -32,7 +32,7 @@ public enum RedDirection implements Direction {
     }
 
     public static void main(String[] args) {
-       // System.out.println(of(1, 1));
+        System.out.println(of(1, 1));
     }
 
 }
