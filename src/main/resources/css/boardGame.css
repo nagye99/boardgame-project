@@ -26,8 +26,8 @@
     -fx-border-width: 2;
 }
 
-.border{
-    -fx-background-color: lightgray;
+.borderPane{
+    -fx-background-color: aliceblue;
 }
 
 .splitpane{
