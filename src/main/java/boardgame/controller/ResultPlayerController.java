@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,6 +38,8 @@ public class ResultPlayerController {
     @FXML
     private void initialize() throws IOException {
         List<Player> playerList = BoardGameHandleResults.GetPlayer();
+
+        ResultPlayerTable.setPlaceholder(new Label("Nincs még rögzített eredmény"));
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         plays.setCellValueFactory(new PropertyValueFactory<>("plays"));

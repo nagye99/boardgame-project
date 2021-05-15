@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,7 +22,10 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import javax.xml.transform.Result;
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
 public class ResultController {
@@ -45,14 +49,36 @@ public class ResultController {
     private TableColumn<Results, String> duration;
 
     @FXML
+    private TableColumn<Results, LocalDateTime> gameTime;
+
+    @FXML
     private void initialize() throws IOException {
         List<Results> resultList = BoardGameHandleResults.GetResults();
+
+        ResultTable.setPlaceholder(new Label("Nincs még rögzített eredmény"));
 
         red_player.setCellValueFactory(new PropertyValueFactory<>("red_player"));
         blue_player.setCellValueFactory(new PropertyValueFactory<>("blue_player"));
         winner.setCellValueFactory(new PropertyValueFactory<>("winner"));
         steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        gameTime.setCellValueFactory(new PropertyValueFactory<>("gameTime"));
+
+        gameTime.setCellFactory(column -> {
+            TableCell<Results, LocalDateTime> cell = new TableCell<Results, LocalDateTime>() {
+                private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    } else {
+                        setText(item.format(formatter));
+                    }
+                }
+            };
+            return cell;
+        });
 
         ObservableList<Results> observableResult = FXCollections.observableArrayList();
         observableResult.addAll(resultList);
@@ -78,7 +104,7 @@ public class ResultController {
         stage.show();
     }
 
-    public void handleExitButton(ActionEvent event) throws IOException {
+    public void handleExitButton(ActionEvent event) {
         Platform.exit();
     }
 
