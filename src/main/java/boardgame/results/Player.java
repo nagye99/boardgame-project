@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class represents the players and there stats.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
