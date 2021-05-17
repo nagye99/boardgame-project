@@ -16,7 +16,7 @@ public enum NextPlayer {
     BLUE_PLAYER;
 
     /**
-     * This method change the actual player to the other player.
+     * This method changes the actual player to the other player.
      *
      * @return the next player
      */

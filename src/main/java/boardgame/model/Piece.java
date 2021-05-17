@@ -14,7 +14,7 @@ public class Piece {
     private final ObjectProperty<Position> position = new SimpleObjectProperty<>();
 
     /**
-     * Crates {@code Piece} object.
+     * Creates {@code Piece} object.
      *
      * @param type the colour of the piece
      * @param position the {@code Position} of the piece

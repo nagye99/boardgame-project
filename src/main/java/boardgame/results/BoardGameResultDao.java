@@ -15,7 +15,7 @@ import java.util.List;
 public interface BoardGameResultDao {
 
     /**
-     * Creating the table if it is not exists before.
+     * Creates the table if it is not exists before.
      * The table has 7 rows: id, red_player, blue_player, winnew, steps, duration, gameTime and its rows represent {@code Results} objects.
      */
     @SqlUpdate("""
@@ -33,7 +33,7 @@ public interface BoardGameResultDao {
     void createTable();
 
     /**
-     * Insert the data of the given {@code Result} to the table.
+     * Inserts the data of the given {@code Result} to the table.
      * It has automaticaly generated id in the table.
      *
      * @param results is the {@code Results} object which is inserted
@@ -44,7 +44,7 @@ public interface BoardGameResultDao {
     long insertResult(@BindBean Results results);
 
     /**
-     * Listing the played games data.
+     * Lists the played games data.
      * The list is ordered by the game's date.
      *
      * @return a {@code List} of {@code Results} objects from the database

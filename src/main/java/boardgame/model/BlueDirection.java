@@ -55,7 +55,7 @@ public enum BlueDirection implements Direction {
     }
 
     /**
-     * It decipher the direction of the move about the row and column changes.
+     * It deciphers the direction of the move about the row and column changes.
      *
      * @param rowChange the difference between the old and new row number
      * @param colChange the difference between the old and new column number

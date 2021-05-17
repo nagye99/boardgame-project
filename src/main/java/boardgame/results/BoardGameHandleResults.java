@@ -12,14 +12,14 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * THis class respond the database connections and its IO operations.
+ * This class responds the database connections and its IO operations.
  */
 public class BoardGameHandleResults {
 
     private static String databaseDirectory = System.getProperty("user.home") + File.separator+ ".results";
 
     /**
-     * This method make directory where the database will be stored.
+     * This method makes directory where the database will be stored.
      */
     private static void MakeResultsDir() {
         try{
@@ -32,7 +32,7 @@ public class BoardGameHandleResults {
     }
 
     /**
-     * This method create the connection to the {@code Jdbc} database.
+     * This method creates the connection to the {@code Jdbc} database.
      *
      * @return the created {@code Jdbi} connection
      */
@@ -101,7 +101,7 @@ public class BoardGameHandleResults {
     }
 
     /**
-     * This method list out the results of the database.
+     * This method lists out the results of the database.
      *
      * @return a {@code List} of {@code Result} objects which represents the previous game results
      */

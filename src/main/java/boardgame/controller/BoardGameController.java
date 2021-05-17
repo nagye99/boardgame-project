@@ -278,8 +278,6 @@ public class BoardGameController {
     private void changeScene(String color, String winnerName, String loserName) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/winner.fxml"));
-            Logger.warn(BoardGameController.class);
-            //Logger.error(BoardGameController.class.getResource("/fxml/winner.fxml"));
             Parent root = fxmlLoader.load();
             WinnerController controller = fxmlLoader.<WinnerController>getController();
             controller.setWinner(color, winnerName, loserName);
@@ -290,7 +288,7 @@ public class BoardGameController {
             System.out.println(e);
             e.getCause();
             e.getMessage();
-            //Logger.error("Nem található az fxml.");
+            Logger.error("Nem megnyitható az fxml.");
         }
     }
 
@@ -326,7 +324,6 @@ public class BoardGameController {
 
     @FXML
     private void handleRestartButton(InputEvent event) throws IOException {
-        Logger.error(event);
         FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();

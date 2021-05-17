@@ -11,9 +11,9 @@ import java.util.Objects;
 public record Position(int row, int col) {
 
     /**
-     * This method calculate the position after a step of the given position.
+     * This method calculates the position after a step of the given position.
      *
-     * @param direction that represent thet direction of move
+     * @param direction that represents that direction of move
      * @return the new position after the step
      */
     public Position moveTo(Direction direction) {
