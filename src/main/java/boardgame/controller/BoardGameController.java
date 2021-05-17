@@ -66,16 +66,18 @@ public class BoardGameController {
 
     @FXML
     private Label redPlayerLabel;
+
     @FXML
     private Label bluePlayerLabel;
-    @FXML
-    public Label nextPlayerLabel;
 
     @FXML
-    public Label stopWatchLabel;
+    private Label nextPlayerLabel;
 
     @FXML
-    public Label stepsLabel;
+    private Label stopWatchLabel;
+
+    @FXML
+    private Label stepsLabel;
 
     @FXML
     private void initialize() {
@@ -89,10 +91,8 @@ public class BoardGameController {
         showSelectablePositions();
         writeOutName();
         createStopWatch();
-        //Logger.error(steps);
         stepsLabel.textProperty().bind(steps.asString());
-        //Logger.error(steps);
-        Logger.error("Init");
+        Logger.info("Init ready");
     }
 
     private void createBoard() {
@@ -133,16 +133,6 @@ public class BoardGameController {
         }
     }
 
-    public void setName(String player1, String player2) {
-        this.redName.set(player1);
-        this.blueName.set(player2);
-    }
-
-    private void writeOutName() {
-        redPlayerLabel.textProperty().bind(redName);
-        bluePlayerLabel.textProperty().bind(blueName);
-    }
-
     @FXML
     private void handleMouseClick(MouseEvent event) {
         var square = (StackPane) event.getSource();
@@ -151,16 +141,6 @@ public class BoardGameController {
         var position = new Position(row, col);
         Logger.debug("Click on square {}", position);
         handleClickOnSquare(position);
-    }
-
-    private void nextPlayerChange(ObservableValue<? extends NextPlayer> observable, NextPlayer oldPlayer, NextPlayer newPlayer) {
-        if (newPlayer == NextPlayer.RED_PLAYER) {
-            nextPlayerLabel.setText("A piros játékos következik");
-            nextPlayerLabel.setTextFill(Color.RED);
-        } else if (newPlayer == NextPlayer.BLUE_PLAYER) {
-            nextPlayerLabel.setText("A kék játékos következik");
-            nextPlayerLabel.setTextFill(Color.BLUE);
-        }
     }
 
     private void handleClickOnSquare(Position position) {
@@ -219,15 +199,6 @@ public class BoardGameController {
         square.getStyleClass().remove("selected");
     }
 
-    private StackPane getSquare(Position position) {
-        for (var child : board.getChildren()) {
-            if (GridPane.getRowIndex(child) == position.row() && GridPane.getColumnIndex(child) == position.col()) {
-                return (StackPane) child;
-            }
-        }
-        throw new AssertionError();
-    }
-
     private void setSelectablePositions() {
         selectablePositions.clear();
         Logger.debug("selectablePosition" + nextPlayer);
@@ -269,12 +240,38 @@ public class BoardGameController {
         }
     }
 
-    private void piecePositionChange(ObservableValue<? extends Position> observable, Position oldPosition, Position newPosition) {
-        Logger.debug("Move: {} -> {}", oldPosition, newPosition);
-        StackPane oldSquare = getSquare(oldPosition);
-        StackPane newSquare = getSquare(newPosition);
-        newSquare.getChildren().addAll(oldSquare.getChildren());
-        oldSquare.getChildren().clear();
+    private StackPane getSquare(Position position) {
+        for (var child : board.getChildren()) {
+            if (GridPane.getRowIndex(child) == position.row() && GridPane.getColumnIndex(child) == position.col()) {
+                return (StackPane) child;
+            }
+        }
+        throw new AssertionError();
+    }
+
+    private void endGame(NextPlayer nextPlayer) {
+        stopWatchTimeline.stop();
+        String winner;
+        String loser;
+        String color;
+        switch (nextPlayer) {
+            case RED_PLAYER -> {
+                winner = blueName.get();
+                loser = redName.get();
+                color = "kék";
+            }
+            case BLUE_PLAYER -> {
+                winner = redName.get();
+                loser = blueName.get();
+                color = "piros";
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + nextPlayer);
+        }
+        Results result = new Results(redName.get(), blueName.get(), winner, steps.get(), DurationFormatUtils.formatDuration(startTime.until(Instant.now(), ChronoUnit.MILLIS), "HH:mm:ss"), LocalDateTime.now());
+        BoardGameHandleResults.SaveResult(result);
+        BoardGameHandleResults.SaveWinnerPlayer(winner);
+        BoardGameHandleResults.SaveLoserPlayer(loser);
+        changeScene(color, winner, loser);
     }
 
     @FXML
@@ -295,6 +292,16 @@ public class BoardGameController {
             e.getMessage();
             //Logger.error("Nem található az fxml.");
         }
+    }
+
+    public void setName(String player1, String player2) {
+        this.redName.set(player1);
+        this.blueName.set(player2);
+    }
+
+    private void writeOutName() {
+        redPlayerLabel.textProperty().bind(redName);
+        bluePlayerLabel.textProperty().bind(blueName);
     }
 
     private void createStopWatch() {
@@ -326,28 +333,21 @@ public class BoardGameController {
         stage.show();
     }
 
-    private void endGame(NextPlayer nextPlayer) {
-        stopWatchTimeline.stop();
-        String winner;
-        String loser;
-        String color;
-        switch (nextPlayer) {
-            case RED_PLAYER -> {
-                winner = blueName.get();
-                loser = redName.get();
-                color = "kék";
-            }
-            case BLUE_PLAYER -> {
-                winner = redName.get();
-                loser = blueName.get();
-                color = "piros";
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + nextPlayer);
+    private void nextPlayerChange(ObservableValue<? extends NextPlayer> observable, NextPlayer oldPlayer, NextPlayer newPlayer) {
+        if (newPlayer == NextPlayer.RED_PLAYER) {
+            nextPlayerLabel.setText("A piros játékos következik");
+            nextPlayerLabel.setTextFill(Color.RED);
+        } else if (newPlayer == NextPlayer.BLUE_PLAYER) {
+            nextPlayerLabel.setText("A kék játékos következik");
+            nextPlayerLabel.setTextFill(Color.BLUE);
         }
-        Results result = new Results(redName.get(), blueName.get(), winner, steps.get(), DurationFormatUtils.formatDuration(startTime.until(Instant.now(), ChronoUnit.MILLIS), "HH:mm:ss"), LocalDateTime.now());
-        BoardGameHandleResults.SaveResult(result);
-        BoardGameHandleResults.SaveWinnerPlayer(winner);
-        BoardGameHandleResults.SaveLoserPlayer(loser);
-        changeScene(color, winner, loser);
+    }
+
+    private void piecePositionChange(ObservableValue<? extends Position> observable, Position oldPosition, Position newPosition) {
+        Logger.debug("Move: {} -> {}", oldPosition, newPosition);
+        StackPane oldSquare = getSquare(oldPosition);
+        StackPane newSquare = getSquare(newPosition);
+        newSquare.getChildren().addAll(oldSquare.getChildren());
+        oldSquare.getChildren().clear();
     }
 }
