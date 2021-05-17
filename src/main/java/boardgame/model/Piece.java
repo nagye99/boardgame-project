@@ -45,7 +45,7 @@ public class Piece {
     /**
      * It gives the position of the actual piece as property.
      *
-     * @return the {@ObjectProperty} of the {@Position} the actual piece
+     * @return the {@code ObjectProperty} of the {@code Position} the actual piece
      */
     public ObjectProperty<Position> positionProperty() {
         return position;

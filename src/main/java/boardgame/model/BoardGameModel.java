@@ -31,7 +31,7 @@ public class BoardGameModel {
     public ObjectProperty<NextPlayer> nextPlayer;
 
     /**
-     * Creates a {@code BoardGameModel} object wich represents the initial state of the original game.
+     * Creates a {@code BoardGameModel} object which represents the initial state of the original game.
      */
     public BoardGameModel() {
         this(NextPlayer.RED_PLAYER, new ArrayList<Position>(Arrays.asList(new Position(2, 4), new Position(3, 2))),
@@ -180,7 +180,7 @@ public class BoardGameModel {
     /**
      * It gives the positions where the pieces are red and they can move.
      *
-     * @return a {@List} object of {@code Position} objects which represents the movable red pieces
+     * @return a {@code List} object of {@code Position} objects which represents the movable red pieces
      */
     public List<Position> getRedPositions() {
         List<Position> redPositions = new ArrayList<>();
@@ -195,7 +195,7 @@ public class BoardGameModel {
     /**
      *  It gives the positions where the pieces are blue and they can move.
      *
-     * @return a {@List} object of {@code Position} objects which represents the movable blue pieces
+     * @return a {@code List} object of {@code Position} objects which represents the movable blue pieces
      */
     public List<Position> getBluePositions() {
         List<Position> bluePositions = new ArrayList<>();
@@ -210,7 +210,7 @@ public class BoardGameModel {
     /**
      * It tests that the any of the blue pieces are movable.
      *
-     * @return a {code boolean} which represents can any of blue piece move
+     * @return a {@code boolean} which represents can any of blue piece move
      */
     public boolean canBlueMove() {
         for (var position : bluePiecesPosition) {
@@ -224,7 +224,7 @@ public class BoardGameModel {
     /**
      * It tests that the any of the red pieces are movable.
      *
-     * @return a {code boolean} which represents can any of red piece move
+     * @return a {@code boolean} which represents can any of red piece move
      */
     public boolean canRedMove() {
         for (var position : redPiecesPosition) {
