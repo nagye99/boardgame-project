@@ -17,15 +17,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import javax.xml.transform.Result;
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 
 public class ResultController {
@@ -86,7 +81,8 @@ public class ResultController {
         ResultTable.setItems(observableResult);
     }
 
-    public void handleRestartButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleRestartButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
@@ -95,7 +91,8 @@ public class ResultController {
         stage.show();
     }
 
-    public void handleResultPlayerButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleResultPlayerButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultPlayerController.class.getResource("/fxml/resultPlayer.fxml"));
         Parent root = fxmlLoader.load();
         ResultPlayerController controller = fxmlLoader.<ResultPlayerController>getController();
@@ -104,7 +101,8 @@ public class ResultController {
         stage.show();
     }
 
-    public void handleExitButton(ActionEvent event) {
+    @FXML
+    private void handleExitButton(ActionEvent event) {
         Platform.exit();
     }
 

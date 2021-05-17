@@ -314,7 +314,8 @@ public class BoardGameController {
         stopWatchTimeline.play();
     }
 
-    public void handleResultButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
@@ -323,7 +324,8 @@ public class BoardGameController {
         stage.show();
     }
 
-    public void handleRestartButton(InputEvent event) throws IOException {
+    @FXML
+    private void handleRestartButton(InputEvent event) throws IOException {
         Logger.error(event);
         FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();

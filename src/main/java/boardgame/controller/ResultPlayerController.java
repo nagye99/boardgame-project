@@ -2,7 +2,6 @@ package boardgame.controller;
 
 import boardgame.results.BoardGameHandleResults;
 import boardgame.results.Player;
-import boardgame.results.Results;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,7 +50,8 @@ public class ResultPlayerController {
         ResultPlayerTable.setItems(observablePlayer);
     }
 
-    public void handleRestartButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleRestartButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultPlayerController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
@@ -60,7 +60,8 @@ public class ResultPlayerController {
         stage.show();
     }
 
-    public void handleResultButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultPlayerController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
@@ -69,7 +70,8 @@ public class ResultPlayerController {
         stage.show();
     }
 
-    public void handleExitButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleExitButton(ActionEvent event) throws IOException {
         Platform.exit();
     }
 

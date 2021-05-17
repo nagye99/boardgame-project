@@ -59,10 +59,4 @@ public class WinnerController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-    public static void main(String[] args) {
-        //WinnerController ez = new WinnerController();
-        //ez.setWinner("piros", "A","B");
-        //System.out.println(ez.color.get().equals("piros"));
-    }
 }
