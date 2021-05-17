@@ -14,12 +14,13 @@ import java.util.List;
 
 public class BoardGameHandleResults {
 
+    private static String databaseDirectory = System.getProperty("user.home") + File.separator+ ".results";
+
     private static void MakeResultsDir() {
         try{
-        String homeDirectory = System.getProperty("user.home");
-        Path resultsDirectory = Path.of(homeDirectory + File.separator +".results");
-        if (Files.notExists(resultsDirectory)){
-            Files.createDirectory(resultsDirectory);}
+        Path databaseDirectoryPath = Path.of(databaseDirectory);
+        if (Files.notExists(databaseDirectoryPath)){
+            Files.createDirectory(databaseDirectoryPath);}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,8 +28,8 @@ public class BoardGameHandleResults {
 
     public static Jdbi CreateConnection(){
         MakeResultsDir();
-        String databaseURL = "jdbc:h2:file:"+System.getProperty("user.home") + File.separator+ ".results" + File.separator + "result";
-        Jdbi jdbi = Jdbi.create(databaseURL, "sa", "");
+        String databaseURL = databaseDirectory + File.separator + "result";
+        Jdbi jdbi = Jdbi.create("jdbc:h2:file:"+ databaseURL);
         Logger.error("jdbc:h2:file:"+"user.home" + File.separator +".results" + File.separator + "result");
         jdbi.installPlugin(new SqlObjectPlugin());
         return jdbi;
