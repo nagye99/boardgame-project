@@ -42,17 +42,11 @@ public class Piece {
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, position);
+        return Objects.hash(type, position.get());
     }
 
+    @Override
     public String toString() {
         return "\ncolor: " + type.toString() + " position: " + position.get().toString() ;
-    }
-
-    public static void main(String[] args) {
-        Position pos = new Position(1,1);
-        System.out.println(pos.equals(new Position(1,1)));
-        Piece piece = new Piece(PieceColor.BLUE, new Position(5, 6));
-        System.out.println(piece.equals(new Piece(PieceColor.BLUE, new Position(5, 6))));
     }
 }
