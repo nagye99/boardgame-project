@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Classes represents the played games data.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +19,4 @@ public class Results {
     private Integer steps;
     private String duration;
     private LocalDateTime gameTime;
-
-    public static void main(String[] args) {
-
-    }
 }
