@@ -1,4 +1,4 @@
 /**
- * The packages and classes that implements the game.
+ * The packages and classes that implement the game.
  */
 package boardgame;

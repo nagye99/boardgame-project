@@ -40,7 +40,7 @@ public class BoardGameHandleResults {
         MakeResultsDir();
         String databaseURL = databaseDirectory + File.separator + "result";
         Jdbi jdbi = Jdbi.create("jdbc:h2:file:"+ databaseURL);
-        Logger.info("Connected to jdbc:h2:file:"+"user.home" + File.separator +".results" + File.separator + "result");
+        Logger.info("Created connection to jdbc:h2:file:"+"user.home" + File.separator +".results" + File.separator + "result");
         jdbi.installPlugin(new SqlObjectPlugin());
         return jdbi;
     }

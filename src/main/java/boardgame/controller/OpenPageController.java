@@ -33,7 +33,7 @@ public class OpenPageController {
         }
         else{
             FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
-            Logger.warn(OpenPageController.class.getResource("/fxml/boardGame.fxml"));
+            Logger.info("Opening: " + OpenPageController.class.getResource("/fxml/boardGame.fxml"));
             Parent root = fxmlLoader.load();
             BoardGameController controller = fxmlLoader.<BoardGameController>getController();
             controller.setName(player1TextField.getText(), player2TextField.getText());
@@ -46,7 +46,7 @@ public class OpenPageController {
     @FXML
     private void handleRuleButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/rules.fxml"));
-       // Logger.error(OpenPageController.class.getResource("/fxml/rules.fxml"));
+        Logger.info("Opening: "+OpenPageController.class.getResource("/fxml/rules.fxml"));
         Parent root = fxmlLoader.load();
         RulesController controller = fxmlLoader.<RulesController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -57,6 +57,7 @@ public class OpenPageController {
     @FXML
     private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
+        Logger.info("Opening: "+ OpenPageController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +54,7 @@ public class ResultPlayerController {
     @FXML
     private void handleRestartButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultPlayerController.class.getResource("/fxml/openPage.fxml"));
+        Logger.info("Opening: " + ResultPlayerController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -63,6 +65,7 @@ public class ResultPlayerController {
     @FXML
     private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ResultPlayerController.class.getResource("/fxml/result.fxml"));
+        Logger.info("Opening: " + ResultPlayerController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -277,7 +277,8 @@ public class BoardGameController {
     @FXML
     private void changeScene(String color, String winnerName, String loserName) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(OpenPageController.class.getResource("/fxml/winner.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(BoardGameController.class.getResource("/fxml/winner.fxml"));
+            Logger.info("Opening: " + BoardGameController.class.getResource("/fxml/winner.fxml"));
             Parent root = fxmlLoader.load();
             WinnerController controller = fxmlLoader.<WinnerController>getController();
             controller.setWinner(color, winnerName, loserName);
@@ -314,7 +315,8 @@ public class BoardGameController {
 
     @FXML
     private void handleResultButton(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(BoardGameController.class.getResource("/fxml/result.fxml"));
+        Logger.info("Opening: " + BoardGameController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -324,7 +326,8 @@ public class BoardGameController {
 
     @FXML
     private void handleRestartButton(InputEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ResultController.class.getResource("/fxml/openPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(BoardGameController.class.getResource("/fxml/openPage.fxml"));
+        Logger.info("Opening: " + BoardGameController.class.getResource("/fxml/openPage.fxml"));
         Parent root = fxmlLoader.load();
         OpenPageController controller = fxmlLoader.<OpenPageController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

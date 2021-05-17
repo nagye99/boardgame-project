@@ -1,7 +1,7 @@
 package boardgame.model;
 
 /**
- * This interface join the different Direction representer classes.
+ * This interface joins the different Direction representing classes.
  */
 public interface Direction {
 

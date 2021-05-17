@@ -2,7 +2,6 @@ package boardgame.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.tinylog.Logger;
 
 import java.util.*;
 
@@ -96,7 +95,7 @@ public class BoardGameModel {
     }
 
     /**
-     * It count the pieces  number in the table.
+     * It counts the pieces  number in the table.
      *
      * @return the number of the pieces
      */
@@ -105,7 +104,7 @@ public class BoardGameModel {
     }
 
     /**
-     * It count the blocks number in the table.
+     * It counts the blocks number in the table.
      *
      * @return the number of blocks
      */
@@ -209,7 +208,7 @@ public class BoardGameModel {
     }
 
     /**
-     * It test that the any of the blue pieces are movable.
+     * It tests that the any of the blue pieces are movable.
      *
      * @return a {code boolean} which represents can any of blue piece move
      */
@@ -223,7 +222,7 @@ public class BoardGameModel {
     }
 
     /**
-     * It test that the any of the red pieces are movable.
+     * It tests that the any of the red pieces are movable.
      *
      * @return a {code boolean} which represents can any of red piece move
      */
@@ -333,7 +332,7 @@ public class BoardGameModel {
     }
 
     /**
-     * It calculate about the old and new position of the piece the direction where it moves.
+     * It calculates about the old and new position of the piece the direction where it moves.
      *
      * @param selected the old {@code Position} of the {@code Piece}
      * @param position the new {@code Position} of the {@code Piece}
@@ -383,7 +382,6 @@ public class BoardGameModel {
         if (bluePiecesPosition.contains(newPosition)) {
             bluePiecesPosition.remove(newPosition);
             var a = pieces.remove(new Piece(PieceColor.BLUE, newPosition));
-            Logger.debug(a + "\n" + pieces);
         }
     }
 
@@ -393,7 +391,6 @@ public class BoardGameModel {
         if (redPiecesPosition.contains(newPosition)) {
             redPiecesPosition.remove(newPosition);
             var a = pieces.remove(new Piece(PieceColor.RED, newPosition));
-            Logger.debug(a + "\n" + pieces);
         }
     }
 

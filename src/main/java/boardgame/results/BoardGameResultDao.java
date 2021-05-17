@@ -34,7 +34,7 @@ public interface BoardGameResultDao {
 
     /**
      * Inserts the data of the given {@code Result} to the table.
-     * It has automaticaly generated id in the table.
+     * It has automatically generated id in the table.
      *
      * @param results is the {@code Results} object which is inserted
      * @return the generated id

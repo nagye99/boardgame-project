@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 
@@ -54,6 +55,7 @@ public class WinnerController {
     @FXML
     private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
+        Logger.info("Opening: " + WinnerController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
