@@ -22,7 +22,7 @@ public enum RedDirection implements Direction {
         return colChange;
     }
 
-    public static Direction of(int rowChange, int colChange) {
+    public static RedDirection of(int rowChange, int colChange) {
         for (var direction : values()) {
             if (direction.rowChange == rowChange && direction.colChange == colChange) {
                 return direction;
@@ -30,9 +30,4 @@ public enum RedDirection implements Direction {
         }
         throw new IllegalArgumentException();
     }
-
-    public static void main(String[] args) {
-        System.out.println(of(1, 1));
-    }
-
 }
