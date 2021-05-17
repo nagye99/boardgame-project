@@ -51,7 +51,8 @@ public class WinnerController {
         }
     }
 
-    public void handleResultButton(ActionEvent event) throws IOException {
+    @FXML
+    private void handleResultButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WinnerController.class.getResource("/fxml/result.fxml"));
         Parent root = fxmlLoader.load();
         ResultController controller = fxmlLoader.<ResultController>getController();
