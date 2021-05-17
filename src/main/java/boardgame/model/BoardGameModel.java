@@ -1,23 +1,39 @@
 package boardgame.model;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import org.tinylog.Logger;
 
 import java.util.*;
 
+/**
+ * Represents the rules of the abstract game.
+ */
 public class BoardGameModel {
 
+    /**
+     * The width of the board.
+     */
     public static int BOARD_WIDTH = 7;
+
+    /**
+     * The height of the board.
+     */
     public static int BOARD_HEIGHT = 6;
 
     private final ArrayList<Piece> pieces;
     private final ArrayList<Position> blocks;
     private final HashSet<Position> redPiecesPosition = new HashSet<>();
     private final HashSet<Position> bluePiecesPosition = new HashSet<>();
+
+    /**
+     * Represents who is the next player.
+     */
     public ObjectProperty<NextPlayer> nextPlayer;
 
+    /**
+     * Creates a {@code BoardGameModel} object wich represents the initial state of the original game.
+     */
     public BoardGameModel() {
         this(NextPlayer.RED_PLAYER, new ArrayList<Position>(Arrays.asList(new Position(2, 4), new Position(3, 2))),
                 new Piece(PieceColor.RED, new Position(0, 0)),
@@ -36,6 +52,14 @@ public class BoardGameModel {
                 new Piece(PieceColor.BLUE, new Position(5, 6)));
     }
 
+    /**
+     * Creates a {@code BoardGameModel} object initialzing the next player the position of the blocks and the position of the pieces with the parameters specified.
+     * The constructor expects a {@code NextPlayer} object an {@code ArrayList} of {@code Position} objects and an array of {@code Piece} objects.
+     *
+     * @param startPlayer the initial starter player of game
+     * @param blocks the initial positions of the blocks
+     * @param pieces the initial pieces in the gametable
+     */
     public BoardGameModel(NextPlayer startPlayer, ArrayList<Position> blocks, Piece... pieces) {
         checkItems(pieces, blocks);
         this.pieces = new ArrayList<Piece>(Arrays.asList(pieces));
@@ -71,34 +95,80 @@ public class BoardGameModel {
                 && 0 <= position.col() && position.col() < BOARD_WIDTH;
     }
 
+    /**
+     * It count the pieces  number in the table.
+     *
+     * @return the number of the pieces
+     */
     public int getPieceCount() {
         return pieces.size();
     }
 
+    /**
+     * It count the blocks number in the table.
+     *
+     * @return the number of blocks
+     */
     public int getBlockCount() {
         return blocks.size();
     }
 
+    /**
+     * This represents the nex player of the game.
+     * It return an {@code ObjectProperty} of {@code NextPlayer}.
+     *
+     * @return the {@code nextPlayer} property
+     */
     public ObjectProperty<NextPlayer> nextPlayerProperty() {
         return nextPlayer;
     }
 
+    /**
+     * It represents the type of the given {@code Piece}.
+     *
+     * @param pieceNumber the number of the actual {@code Piece} in the array of pieces
+     * @return a {@code PieceColor} object which represent the color of the actual piece
+     */
     public PieceColor getPieceType(int pieceNumber) {
         return pieces.get(pieceNumber).getType();
     }
 
+    /**
+     * It represents the position of the given {@code Piece}.
+     *
+     * @param pieceNumber the number of the actual {@code Piece} in the array of pieces
+     * @return a {@code Position} object which represent the position of the actual piece
+     */
     public Position getPiecePosition(int pieceNumber) {
         return pieces.get(pieceNumber).getPosition();
     }
 
+    /**
+     * It represents the position of the given block.
+     *
+     * @param blockNumber the number of the actual block in the array of blocks
+     * @return a {@code Position} object which represent the position of the actual block
+     */
     public Position getBlockPosition(int blockNumber) {
         return blocks.get(blockNumber);
     }
 
+    /**
+     * It gives the {@code ObjectProperty} of {@code Position} for the actual {@code Piece}.
+     *
+     * @param pieceNumber the number of the actual piece in the array of pieces
+     * @return a Property of {@code Position} object which represent the position of the actual piece
+     */
     public ObjectProperty<Position> positionProperty(int pieceNumber) {
         return pieces.get(pieceNumber).positionProperty();
     }
 
+    /**
+     * It represents the place of the piece which in the actual position in the pieces of array.
+     *
+     * @param position the position of the sought piece
+     * @return the number of the piece in the array
+     */
     public OptionalInt getPieceNumber(Position position) {
         for (int i = 0; i < pieces.size(); i++) {
             if (pieces.get(i).getPosition().equals(position)) {
@@ -108,6 +178,11 @@ public class BoardGameModel {
         return OptionalInt.empty();
     }
 
+    /**
+     * It gives the positions where the pieces are red and they can move.
+     *
+     * @return a {@List} object of {@code Position} objects which represents the movable red pieces
+     */
     public List<Position> getRedPositions() {
         List<Position> redPositions = new ArrayList<>();
         for (var position : redPiecesPosition) {
@@ -118,6 +193,11 @@ public class BoardGameModel {
         return redPositions;
     }
 
+    /**
+     *  It gives the positions where the pieces are blue and they can move.
+     *
+     * @return a {@List} object of {@code Position} objects which represents the movable blue pieces
+     */
     public List<Position> getBluePositions() {
         List<Position> bluePositions = new ArrayList<>();
         for (var position : bluePiecesPosition) {
@@ -128,6 +208,11 @@ public class BoardGameModel {
         return bluePositions;
     }
 
+    /**
+     * It test that the any of the blue pieces are movable.
+     *
+     * @return a {code boolean} which represents can any of blue piece move
+     */
     public boolean canBlueMove() {
         for (var position : bluePiecesPosition) {
             if (!getValidBlueMoves(position).isEmpty()) {
@@ -137,6 +222,11 @@ public class BoardGameModel {
         return false;
     }
 
+    /**
+     * It test that the any of the red pieces are movable.
+     *
+     * @return a {code boolean} which represents can any of red piece move
+     */
     public boolean canRedMove() {
         for (var position : redPiecesPosition) {
             if (!getValidRedMoves(position).isEmpty()) {
@@ -146,6 +236,12 @@ public class BoardGameModel {
         return false;
     }
 
+    /**
+     * It represents the {@code RedDirection} objects which the piece from the given position can apply.
+     *
+     * @param position the position of the piece
+     * @return a {@code Set} of {@code RedDirection} objects which are the valid directions of the given position
+     */
     public Set<RedDirection> getValidRedMoves(Position position) {
         EnumSet<RedDirection> validMoves = EnumSet.noneOf(RedDirection.class);
         for (var direction : RedDirection.values()) {
@@ -156,6 +252,12 @@ public class BoardGameModel {
         return validMoves;
     }
 
+    /**
+     * It represents the {@code BlueDirection} objects which the piece from the given position can apply.
+     *
+     * @param position the position of the piece
+     * @return a {@code Set} of {@code BlueDirection} objects which are the valid directions of the given position
+     */
     public Set<BlueDirection> getValidBlueMoves(Position position) {
         EnumSet<BlueDirection> validMoves = EnumSet.noneOf(BlueDirection.class);
         for (var direction : BlueDirection.values()) {
@@ -230,6 +332,13 @@ public class BoardGameModel {
         return true;
     }
 
+    /**
+     * It calculate about the old and new position of the piece the direction where it moves.
+     *
+     * @param selected the old {@code Position} of the {@code Piece}
+     * @param position the new {@code Position} of the {@code Piece}
+     * @return the {@code Direction} of the move
+     */
     public Direction getDirection(Position selected, Position position) {
         Direction direction;
         switch (this.nextPlayer.get()) {
@@ -244,6 +353,13 @@ public class BoardGameModel {
         return direction;
     }
 
+    /**
+     * This method represents the move in the table.
+     * It get the piece which will move and the {@code Direction} where it will move.
+     *
+     * @param pieceNumber the number of {@code Piece} in the array of pieces which move
+     * @param direction the {@code Direction} where the given piece move
+     */
     public void move(int pieceNumber, Direction direction) {
         var piece = pieces.get(pieceNumber);
         var position = piece.getPosition();
@@ -288,10 +404,5 @@ public class BoardGameModel {
             joiner.add(piece.toString());
         }
         return joiner.toString();
-    }
-
-    public static void main(String[] args) {
-        var model = new BoardGameModel();
-        System.out.println(model.toString());
     }
 }

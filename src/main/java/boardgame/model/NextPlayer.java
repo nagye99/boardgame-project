@@ -4,10 +4,12 @@ package boardgame.model;
  * This class represents the players.
  */
 public enum NextPlayer {
+
     /**
      * The red player.
      */
     RED_PLAYER,
+
     /**
      * The blue player.
      */

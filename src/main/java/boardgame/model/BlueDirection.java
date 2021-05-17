@@ -9,10 +9,12 @@ public enum BlueDirection implements Direction {
      * This is the {@code UP_LEFT} direction which means the piece step one up and after that one left so it is a diagonal step.
      */
     UP_LEFT(-1, -1),
+
     /**
      * This is the {@code UP} direction when the piece step one field up.
      */
     UP(-1, 0),
+
     /**
      * This is the {@code UP_RIGHT} direction which means the piece step one up and after that one right so it is a diagonal step.
      */
@@ -34,8 +36,8 @@ public enum BlueDirection implements Direction {
 
     /**
      * The getter for the first paramater of the direction.
-     *
      * It represents the change of the row number.
+     *
      * @return the difference between old and new row number
      */
     public int getRowChange() {
@@ -44,8 +46,8 @@ public enum BlueDirection implements Direction {
 
     /**
      * The getter for the second paramater of the direction.
-     *
      * It represents the change of the column number.
+     *
      * @return the difference between old and new column number
      */
     public int getColChange() {

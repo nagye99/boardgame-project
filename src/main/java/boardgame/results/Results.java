@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * Classes represents the played games data.
+ * Class represents the played games data.
  */
 @Data
 @AllArgsConstructor

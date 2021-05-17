@@ -11,6 +11,7 @@ public interface Direction {
      * @return the difference between old and new row number
      */
     int getRowChange();
+
     /**
      * This method represents the change of the column number.
      *
