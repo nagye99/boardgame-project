@@ -23,8 +23,10 @@ public class WinnerController {
 
     @FXML
     private Label winnerColorLabel;
-    public Label winnerNameLabel;
-    public Label loserNameLabel;
+    @FXML
+    private Label winnerNameLabel;
+    @FXML
+    private Label loserNameLabel;
 
     @FXML
     private void initialize() {
